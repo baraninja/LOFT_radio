@@ -3,7 +3,6 @@ import requests
 import xml.etree.ElementTree as ET
 import pandas as pd
 from datetime import datetime
-import streamlit.components.v1 as components
 
 # Set page config
 st.set_page_config(
@@ -65,12 +64,36 @@ def main():
             box-shadow: 0 1px 3px rgba(0,0,0,0.12);
             margin-bottom: 1rem;
         }
+        /* Fix text colors */
+        h1, h2, h3, p, span {
+            color: #0F172A !important;
+        }
+        .st-emotion-cache-1v0mbdj > img {
+            margin-bottom: 1rem;
+        }
+        .episode-date {
+            color: #64748B !important;
+            font-size: 0.875rem;
+        }
+        .episode-description {
+            color: #334155 !important;
+        }
+        /* Custom Footer */
+        .footer-text {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            padding: 1rem;
+            color: #64748B !important;
+            font-size: 0.875rem;
+            background-color: rgba(248, 249, 250, 0.8);
+        }
         </style>
         """, unsafe_allow_html=True)
     
     # Header
     st.title("🎧 LOFT Podcast Player")
-    st.markdown("*En podd om förnyelse och transformation*")
+    st.markdown("<p style='color: #64748B; font-size: 1.1rem;'>En podd om förnyelse och transformation</p>", unsafe_allow_html=True)
     
     # Fetch episodes
     episodes = parse_rss_feed()
@@ -83,9 +106,9 @@ def main():
             
             with col1:
                 st.subheader(episode['title'])
-                st.markdown(f"*Publicerad: {episode['publication_date']} • Längd: {episode['duration']}*")
+                st.markdown(f"<p class='episode-date'>Publicerad: {episode['publication_date']} • Längd: {episode['duration']}</p>", unsafe_allow_html=True)
                 with st.expander("Visa beskrivning"):
-                    st.markdown(episode['description'])
+                    st.markdown(f"<p class='episode-description'>{episode['description']}</p>", unsafe_allow_html=True)
             
             with col2:
                 st.audio(episode['audio_url'])
@@ -94,7 +117,7 @@ def main():
     
     # Footer
     st.markdown("""
-        <div style='position: fixed; bottom: 0; right: 0; padding: 1rem;'>
+        <div class='footer-text'>
         Developed by Anders Barane
         </div>
         """, unsafe_allow_html=True)
